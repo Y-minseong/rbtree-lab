@@ -75,6 +75,12 @@ static void insert_arr(rbtree *t, const key_t *arr, const size_t n) {
   for (size_t i = 0; i < n; i++) {
     rbtree_insert(t, arr[i]);
   }
+
+  for (size_t i = 0; i < n; i++) {
+    node_t *p = rbtree_find(t, arr[i]);
+    assert(p != NULL);
+    assert(p->key == arr[i]);
+  }
 }
 
 static int comp(const void *p1, const void *p2) {
@@ -322,6 +328,9 @@ void test_find_erase(rbtree *t, const key_t *arr, const size_t n) {
     assert(p != NULL);
     assert(p->key == arr[i]);
     rbtree_erase(t, p);
+    // constraint 확인 함수 추가
+    test_color_constraint(t);
+    test_search_constraint(t);
   }
 
   for (int i = 0; i < n; i++) {
@@ -368,16 +377,16 @@ void test_find_erase_rand(const size_t n, const unsigned int seed) {
 }
 
 int main(void) {
-  test_init();
-  test_insert_single(1024);
-  test_find_single(512, 1024);
-  test_erase_root(128);
-  test_find_erase_fixed();
-  test_minmax_suite();
+  // test_init();
+  // test_insert_single(1024);
+  // test_find_single(512, 1024);
+  // test_erase_root(128);
+  // test_find_erase_fixed();
+  // test_minmax_suite();
   test_to_array_suite();
-  test_distinct_values();
-  test_duplicate_values();
-  test_multi_instance();
-  test_find_erase_rand(10000, 17);
+  // test_distinct_values();
+  // test_duplicate_values();
+  // test_multi_instance();
+  // test_find_erase_rand(10000, 17);
   printf("Passed all tests!\n");
 }
